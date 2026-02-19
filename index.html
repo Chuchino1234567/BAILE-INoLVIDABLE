@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Per Brizejde — Una dedica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#fff1f6; /* soft pink */
+      --bg2:#f7fbff; /* pale blue */
+      --accent:#ff7aa2; /* rose */
+      --muted:#6b6b78;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    body{
+      background: radial-gradient(ellipse at 10% 10%, rgba(255,255,255,0.6), transparent 10%), linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:#222;display:flex;align-items:center;justify-content:center;padding:32px;overflow:hidden
+    }
+    .stage{max-width:920px;width:100%;background:rgba(255,255,255,0.6);backdrop-filter:blur(6px);border-radius:18px;box-shadow:0 10px 30px rgba(15,15,30,0.12);padding:28px;position:relative}
+    header{display:flex;align-items:center;gap:16px}
+    .title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent);margin:0}
+    .subtitle{color:var(--muted);margin:0;font-size:.95rem}
+
+    /* central photo */
+    .hero{display:grid;grid-template-columns:1fr;gap:20px;align-items:center;margin-top:18px}
+    .photo-wrap{display:flex;align-items:center;justify-content:center}
+    .photo{Width:260px;height:260px;border-radius:50%;object-fit:cover;box-shadow:0 8px 30px rgba(0,0,0,.12);border:6px solid rgba(255,255,255,0.6)}
+
+    /* dedication text */
+    .dedica{padding:18px;font-size:1.05rem;line-height:1.5;color:#332733;animation:fadeIn 1.2s ease both}
+
+    /* controls */
+    .controls{display:flex;gap:10px;align-items:center}
+    .btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+    .muted{background:transparent;color:var(--muted);padding:8px;border-radius:8px;border:1px solid rgba(100,100,120,0.08)}
+
+    /* floating hearts */
+    .hearts{pointer-events:none;position:absolute;inset:0;overflow:hidden}
+    .heart{position:absolute;width:28px;height:28px;transform:translateY(120%);opacity:0;animation:floatUp 6s linear infinite}
+    .heart:before,.heart:after{content:'';position:absolute;left:14px;top:0;width:14px;height:22px;background:var(--accent);border-radius:14px 14px 0 0;transform:rotate(-45deg);}
+    .heart:after{left:0;transform:rotate(45deg)}
+    @keyframes floatUp{
+      0%{transform:translateY(120%) scale(.8);opacity:0}
+      10%{opacity:1}
+      50%{opacity:.9}
+      100%{transform:translateY(-30%) scale(1);opacity:0}
+    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+    /* responsiveness */
+    @media (min-width:720px){
+      .hero{grid-template-columns:320px 1fr;align-items:center}
+      .photo{width:320px;height:320px}
+      .title{font-size:2.6rem}
+      .dedica{font-size:1.12rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="stage" role="main">
+    <div class="hearts" aria-hidden="true">
+      <!-- multiple hearts with staggered positions and delays -->
+      <div class="heart" style="left:8%;animation-delay:0s;opacity:.9"></div>
+      <div class="heart" style="left:22%;animation-delay:1.2s;animation-duration:5.4s"></div>
+      <div class="heart" style="left:40%;animation-delay:0.6s;animation-duration:6.2s"></div>
+      <div class="heart" style="left:60%;animation-delay:1.8s;animation-duration:5.8s"></div>
+      <div class="heart" style="left:78%;animation-delay:0.3s;animation-duration:6.4s"></div>
+    </div>
+
+    <header>
+      <div>
+        <h1 class="title">Per Brizejde</h1>
+        <p class="subtitle">Ogni battito, un pensiero; ogni stella, il tuo nome.</p>
+      </div>
+      <div style="margin-left:auto" class="controls">
+        <button id="playBtn" class="btn">Ascolta</button>
+        <button id="pauseBtn" class="muted">Pausa</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="photo-wrap">
+        <!-- Replace 'photo.jpg' with the real photo file in the same folder -->
+        <img class="photo" src="photo.jpg" alt="Foto di Brizejde">
+      </div>
+      <div>
+        <p class="dedica">Amore mio, ogni giorno con te è una piccola eternità. Il tuo sorriso illumina anche le notti più calme; la tua voce è la melodia che desidero ascoltare per sempre. Questa pagina è un semplice segno del mio affetto: per ricordarti quanto sei amata, oggi e sempre.</p>
+        <p style="color:var(--muted);margin-top:8px;font-size:.95rem">Con tutto il mio cuore,</p>
+        <p style="font-weight:700;color:var(--accent);margin-top:4px">[Tuo Nome]</p>
+      </div>
+    </section>
+
+    <!-- Optional background music: put a file named 'music.mp3' in the same folder or change the src -->
+    <audio id="bgAudio" src="music.mp3" loop></audio>
+
+  </div>
+
+  <script>
+    const audio = document.getElementById('bgAudio');
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+
+    playBtn.addEventListener('click', async ()=>{
+      try{ await audio.play(); }catch(e){ console.log('Autoplay blocked',e); }
+    });
+    pauseBtn.addEventListener('click', ()=>{ audio.pause(); });
+
+    // small accessibility: if file missing, disable buttons
+    fetch(audio.src, {method:'HEAD'}).catch(()=>{
+      playBtn.disabled = true; pauseBtn.disabled = true; playBtn.textContent = 'Musica non disponibile';
+    });
+  </script>
+</body>
+</html>
