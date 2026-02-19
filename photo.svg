@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Foto di Brizejde">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0%" stop-color="#ffd6e8"/>
+      <stop offset="100%" stop-color="#fff1f6"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#g)" />
+  <g transform="translate(600,600)">
+    <circle r="340" fill="#fff" opacity="0.9"/>
+    <g transform="translate(-140,-100) scale(1)">
+      <path d="M220 90c-60-40-170-60-220-10-60 60-40 180 40 220 80 40 200 10 240-50 40-60 10-130-60-160z" fill="#ff7aa2" opacity="0.95"/>
+      <path d="M260 140c-40-30-110-50-150-10-45 40-30 110 30 140 60 30 150 8 190-36 36-40 8-86-70-94z" fill="#ffc6da" opacity="0.95"/>
+    </g>
+    <text x="0" y="420" font-family="Inter, sans-serif" font-size="64" fill="#6b6b78" text-anchor="middle">Brizejde</text>
+  </g>
+</svg>
