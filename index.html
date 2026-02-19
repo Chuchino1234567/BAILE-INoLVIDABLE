@@ -73,14 +73,7 @@
         <h1 class="title">Per Brizejde</h1>
         <p class="subtitle">Ogni battito, un pensiero; ogni stella, Brizejde.</p>
       </div>
-      <div style="margin-left:auto" class="controls">
-        <label style="display:flex;gap:8px;align-items:center">
-          <input id="audioFile" type="file" accept="audio/*" style="display:none">
-          <button id="chooseBtn" class="muted">Scegli musica</button>
-        </label>
-        <button id="playBtn" class="btn">Ascolta</button>
-        <button id="pauseBtn" class="muted">Pausa</button>
-      </div>
+      
     </header>
 
     <section class="hero">
@@ -103,8 +96,7 @@ Kamsi 💫</p>
       </div>
     </section>
 
-    <!-- Background music: you can select a local file using the selector -->
-    <audio id="bgAudio" src="music.mp3" loop></audio>
+    <!-- Background music removed (controls were deleted) -->
 
     <!-- decorative floral SVG (peony-like) placed behind content -->
     <svg aria-hidden="true" width="0" height="0" style="position:absolute;left:0;top:0;pointer-events:none;opacity:0.6">
@@ -118,34 +110,6 @@ Kamsi 💫</p>
 
   </div>
 
-  <script>
-    const audio = document.getElementById('bgAudio');
-    const playBtn = document.getElementById('playBtn');
-    const pauseBtn = document.getElementById('pauseBtn');
-    const chooseBtn = document.getElementById('chooseBtn');
-    const audioFile = document.getElementById('audioFile');
-
-    // Play / pause controls
-    playBtn.addEventListener('click', async ()=>{
-      try{ await audio.play(); }catch(e){ console.log('Play blocked',e); }
-    });
-    pauseBtn.addEventListener('click', ()=>{ audio.pause(); });
-
-    // Allow user to choose a local audio file
-    chooseBtn.addEventListener('click', ()=> audioFile.click());
-    audioFile.addEventListener('change', (e)=>{
-      const file = e.target.files && e.target.files[0];
-      if(!file) return;
-      const url = URL.createObjectURL(file);
-      audio.src = url;
-      audio.play().catch(()=>{});
-      chooseBtn.textContent = file.name.length>18?file.name.slice(0,15)+'...':file.name;
-    });
-
-    // If built-in file not present, keep buttons enabled to allow user selection
-    fetch(audio.src, {method:'HEAD'}).catch(()=>{
-      // do nothing — user can still select local audio
-    });
-  </script>
+  
 </body>
 </html>
