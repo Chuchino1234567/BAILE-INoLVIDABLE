@@ -74,6 +74,10 @@
         <p class="subtitle">Ogni battito, un pensiero; ogni stella, il tuo nome.</p>
       </div>
       <div style="margin-left:auto" class="controls">
+        <label style="display:flex;gap:8px;align-items:center">
+          <input id="audioFile" type="file" accept="audio/*" style="display:none">
+          <button id="chooseBtn" class="muted">Scegli musica</button>
+        </label>
         <button id="playBtn" class="btn">Ascolta</button>
         <button id="pauseBtn" class="muted">Pausa</button>
       </div>
@@ -85,14 +89,32 @@
         <img class="photo" src="photo.jpg" alt="Foto di Brizejde">
       </div>
       <div>
-        <p class="dedica">Amore mio, ogni giorno con te è una piccola eternità. Il tuo sorriso illumina anche le notti più calme; la tua voce è la melodia che desidero ascoltare per sempre. Questa pagina è un semplice segno del mio affetto: per ricordarti quanto sei amata, oggi e sempre.</p>
-        <p style="color:var(--muted);margin-top:8px;font-size:.95rem">Con tutto il mio cuore,</p>
-        <p style="font-weight:700;color:var(--accent);margin-top:4px">[Tuo Nome]</p>
+        <p class="dedica">Amore mio,<br>
+volevo dirti grazie. Grazie per tutto.<br>
+Grazie per esserci sempre, anche quando non è facile.<br>
+Grazie per il tuo aiuto, per il modo in cui mi sostieni e mi fai sentire meno solo in qualsiasi situazione.<br>
+Grazie per il divertimento, per le risate che ci fanno dimenticare il resto del mondo, per la leggerezza che porti nelle mie giornate.<br>
+Grazie per i momenti in cui cerchiamo di chiarire, anche quando è complicato, perché scegliere di capirsi è uno dei modi più belli di amarsi.<br>
+E grazie anche per quelle volte semplici, noi due al sushi. Senza bisogno di altro. Perché alla fine mi basta questo: noi, insieme.<br>
+Ti sono grato per ogni cosa che fai, per ogni gesto, per ogni parola.<br>
+Con te mi sento a casa.<br>
+Con amore,<br>
+Kamsi 💫</p>
       </div>
     </section>
 
-    <!-- Optional background music: put a file named 'music.mp3' in the same folder or change the src -->
+    <!-- Background music: you can select a local file using the selector -->
     <audio id="bgAudio" src="music.mp3" loop></audio>
+
+    <!-- decorative floral SVG (peony-like) placed behind content -->
+    <svg aria-hidden="true" width="0" height="0" style="position:absolute;left:0;top:0;pointer-events:none;opacity:0.6">
+      <defs>
+        <radialGradient id="g1" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#ffe6f0" />
+          <stop offset="100%" stop-color="#ffd6e8" />
+        </radialGradient>
+      </defs>
+    </svg>
 
   </div>
 
@@ -100,15 +122,29 @@
     const audio = document.getElementById('bgAudio');
     const playBtn = document.getElementById('playBtn');
     const pauseBtn = document.getElementById('pauseBtn');
+    const chooseBtn = document.getElementById('chooseBtn');
+    const audioFile = document.getElementById('audioFile');
 
+    // Play / pause controls
     playBtn.addEventListener('click', async ()=>{
-      try{ await audio.play(); }catch(e){ console.log('Autoplay blocked',e); }
+      try{ await audio.play(); }catch(e){ console.log('Play blocked',e); }
     });
     pauseBtn.addEventListener('click', ()=>{ audio.pause(); });
 
-    // small accessibility: if file missing, disable buttons
+    // Allow user to choose a local audio file
+    chooseBtn.addEventListener('click', ()=> audioFile.click());
+    audioFile.addEventListener('change', (e)=>{
+      const file = e.target.files && e.target.files[0];
+      if(!file) return;
+      const url = URL.createObjectURL(file);
+      audio.src = url;
+      audio.play().catch(()=>{});
+      chooseBtn.textContent = file.name.length>18?file.name.slice(0,15)+'...':file.name;
+    });
+
+    // If built-in file not present, keep buttons enabled to allow user selection
     fetch(audio.src, {method:'HEAD'}).catch(()=>{
-      playBtn.disabled = true; pauseBtn.disabled = true; playBtn.textContent = 'Musica non disponibile';
+      // do nothing — user can still select local audio
     });
   </script>
 </body>
